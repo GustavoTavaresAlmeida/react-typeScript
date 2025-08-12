@@ -1,0 +1,254 @@
+/* css/responsive.css - Estilos Responsivos */
+
+/* ===== TABLET ===== */
+@media (max-width: 900px) {
+    .content-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .main-wrapper {
+        padding: 0 1rem;
+    }
+    
+    .posts-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .app-container {
+        padding: 1rem 0;
+    }
+    
+    .card {
+        padding: 1.5rem;
+    }
+    
+    .posts-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .contador-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+    
+    .main-title {
+        font-size: 1.5rem;
+    }
+    
+    .section-title {
+        font-size: 1.125rem;
+    }
+    
+    .content-grid {
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+    }
+    
+    .posts-list {
+        max-height: 400px;
+    }
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 480px) {
+    .main-wrapper {
+        padding: 0 0.5rem !important;
+    }
+    
+    .form-container, .posts-section {
+        padding: 1rem !important;
+    }
+    
+    .card {
+        padding: 1rem;
+    }
+    
+    .app-container {
+        padding: 0.5rem 0;
+    }
+    
+    .main-title {
+        font-size: 1.25rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .posts-counter {
+        font-size: 0.875rem;
+        margin-bottom: 1rem;
+    }
+    
+    .section-title {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .form-fields {
+        gap: 1rem;
+    }
+    
+    .field-input, .field-textarea, .field-select {
+        padding: 0.5rem;
+        font-size: 0.875rem;
+    }
+    
+    .btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+    }
+    
+    .post-card {
+        border-radius: 8px;
+    }
+    
+    .post-content {
+        padding: 15px;
+    }
+    
+    .post-title {
+        font-size: 18px;
+        margin-bottom: 8px;
+    }
+    
+    .post-description {
+        font-size: 13px;
+        margin-bottom: 12px;
+    }
+    
+    .post-image {
+        height: 150px;
+    }
+    
+    .post-image-small {
+        width: 60px;
+        height: 60px;
+        margin-right: 0.75rem;
+    }
+    
+    .tipo-tag {
+        padding: 3px 8px;
+        font-size: 10px;
+        margin-bottom: 8px;
+    }
+    
+    .data-publicacao {
+        font-size: 11px;
+    }
+    
+    .btn-danger {
+        padding: 4px 8px;
+        font-size: 10px;
+    }
+    
+    .contador-container {
+        padding: 16px;
+        margin-bottom: 24px;
+    }
+    
+    .contador-titulo {
+        font-size: 16px;
+        margin-bottom: 12px;
+    }
+    
+    .contador-texto {
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+    
+    .contador-grid {
+        gap: 8px;
+        margin-top: 12px;
+    }
+    
+    .contador-item {
+        padding: 8px;
+    }
+    
+    .contador-label {
+        font-size: 12px;
+    }
+    
+    .contador-numero {
+        font-size: 20px;
+    }
+    
+    .posts-list {
+        max-height: 300px;
+        gap: 0.75rem;
+    }
+    
+    .post-card-simple {
+        padding: 0.75rem;
+    }
+    
+    .post-meta {
+        font-size: 0.625rem;
+        gap: 0.25rem;
+        flex-wrap: wrap;
+    }
+    
+    .toast {
+        top: 0.5rem;
+        right: 0.5rem;
+        left: 0.5rem;
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .empty-state {
+        padding: 40px 15px;
+    }
+    
+    .empty-state-icon {
+        font-size: 36px;
+        margin-bottom: 12px;
+    }
+    
+    .empty-state-text {
+        font-size: 16px;
+        margin-bottom: 6px;
+    }
+    
+    .empty-state-subtext {
+        font-size: 13px;
+    }
+}
+
+/* ===== MOBILE PEQUENO ===== */
+@media (max-width: 320px) {
+    .main-wrapper {
+        padding: 0 0.25rem !important;
+    }
+    
+    .form-container, .posts-section, .card {
+        padding: 0.75rem !important;
+    }
+    
+    .main-title {
+        font-size: 1.125rem;
+    }
+    
+    .section-title {
+        font-size: 0.875rem;
+    }
+    
+    .contador-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .post-content-flex {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .post-image-small {
+        width: 100%;
+        height: 120px;
+        margin-right: 0;
+        border-radius: 6px;
+    }
+    
+    .post-meta {
+        justify-content: center;
+        text-align: center;
+    }
+}

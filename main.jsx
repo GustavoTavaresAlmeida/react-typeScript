@@ -1,22 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-interface Post {
-  id: string;
-  titulo: string;
-  descricao: string;
-  urlImagem: string;
-  dataPublicacao: string;
-  tipoPost: string;
-  criadoEm: string;
-}
-
-interface ToastProps {
-  message: string;
-  type: 'success' | 'error';
-  onClose: () => void;
-}
-
-const Toast: React.FC<ToastProps> = ({ message, type, onClose }) => {
+const Toast = ({ message, type, onClose }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       onClose();
@@ -77,21 +61,21 @@ const Toast: React.FC<ToastProps> = ({ message, type, onClose }) => {
   );
 };
 
-const App: React.FC = () => {
+const App = () => {
   const [titulo, setTitulo] = useState('');
   const [descricao, setDescricao] = useState('');
   const [urlImagem, setUrlImagem] = useState('');
   const [dataPublicacao, setDataPublicacao] = useState('');
   const [tipoPost, setTipoPost] = useState('');
   const [totalPosts, setTotalPosts] = useState(0);
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+  const [posts, setPosts] = useState([]);
+  const [toast, setToast] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   // Carregar posts ao inicializar (simulando localStorage em memória)
   useEffect(() => {
     // Simular posts salvos no localStorage com alguns exemplos
-    const postsSimulados: Post[] = [
+    const postsSimulados = [
       {
         id: '1',
         titulo: 'Bem-vindo ao Sistema de Posts',
@@ -106,17 +90,17 @@ const App: React.FC = () => {
     setTotalPosts(postsSimulados.length);
   }, []);
 
-  const showToast = (message: string, type: 'success' | 'error') => {
+  const showToast = (message, type) => {
     setToast({ message, type });
   };
 
   // Função para validar URL
-  const validarURL = (url: string): boolean => {
+  const validarURL = (url) => {
     return url.startsWith('http://') || url.startsWith('https://');
   };
 
   // Função para validar data
-  const validarData = (data: string): boolean => {
+  const validarData = (data) => {
     const hoje = new Date();
     const dataInformada = new Date(data);
     hoje.setHours(0, 0, 0, 0);
@@ -125,7 +109,7 @@ const App: React.FC = () => {
   };
 
   // Função para validar o formulário
-  const validarFormulario = (): boolean => {
+  const validarFormulario = () => {
     if (!titulo.trim()) {
       showToast('O título é obrigatório!', 'error');
       return false;
@@ -175,7 +159,7 @@ const App: React.FC = () => {
     // Simular delay de salvamento
     await new Promise(resolve => setTimeout(resolve, 500));
 
-    const novoPost: Post = {
+    const novoPost = {
       id: Date.now().toString(),
       titulo,
       descricao,
@@ -202,7 +186,7 @@ const App: React.FC = () => {
   };
 
   // Função para deletar post
-  const deletarPost = (id: string) => {
+  const deletarPost = (id) => {
     const postsAtualizados = posts.filter(post => post.id !== id);
     setPosts(postsAtualizados);
     setTotalPosts(postsAtualizados.length);
@@ -210,7 +194,7 @@ const App: React.FC = () => {
   };
 
   // Função para formatar data
-  const formatarData = (dataISO: string) => {
+  const formatarData = (dataISO) => {
     return new Date(dataISO).toLocaleDateString('pt-BR');
   };
 
@@ -242,11 +226,11 @@ const App: React.FC = () => {
       fontSize: '1.875rem',
       fontWeight: 'bold',
       color: '#1f2937',
-      textAlign: 'center' as const,
+      textAlign: 'center',
       marginBottom: '0.5rem'
     },
     postsCounter: {
-      textAlign: 'center' as const,
+      textAlign: 'center',
       color: '#6b7280',
       marginBottom: '2rem'
     },
@@ -268,12 +252,12 @@ const App: React.FC = () => {
     },
     formFields: {
       display: 'flex',
-      flexDirection: 'column' as const,
+      flexDirection: 'column',
       gap: '1.5rem'
     },
     fieldGroup: {
       display: 'flex',
-      flexDirection: 'column' as const
+      flexDirection: 'column'
     },
     fieldLabel: {
       display: 'block',
@@ -303,7 +287,7 @@ const App: React.FC = () => {
       color: '#111827',
       backgroundColor: 'white',
       transition: 'border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out',
-      resize: 'vertical' as const,
+      resize: 'vertical',
       minHeight: '120px'
     },
     fieldSelect: {
@@ -346,9 +330,9 @@ const App: React.FC = () => {
     },
     postsList: {
       maxHeight: '500px',
-      overflowY: 'auto' as const,
+      overflowY: 'auto',
       display: 'flex',
-      flexDirection: 'column' as const,
+      flexDirection: 'column',
       gap: '1rem'
     },
     postCard: {
@@ -360,7 +344,7 @@ const App: React.FC = () => {
     postImage: {
       width: '80px',
       height: '80px',
-      objectFit: 'cover' as const,
+      objectFit: 'cover',
       borderRadius: '0.375rem',
       marginRight: '1rem'
     },
@@ -410,14 +394,14 @@ const App: React.FC = () => {
     }
   };
 
-  const getTipoColor = (tipo: string) => {
+  const getTipoColor = (tipo) => {
     const colors = {
       artigo: { backgroundColor: '#dbeafe', color: '#1e40af' },
       noticia: { backgroundColor: '#dcfce7', color: '#166534' },
       tutorial: { backgroundColor: '#f3e8ff', color: '#7c3aed' },
       entrevista: { backgroundColor: '#fed7aa', color: '#ea580c' }
     };
-    return colors[tipo as keyof typeof colors] || { backgroundColor: '#f3f4f6', color: '#374151' };
+    return colors[tipo] || { backgroundColor: '#f3f4f6', color: '#374151' };
   };
 
   return (
@@ -572,7 +556,7 @@ const App: React.FC = () => {
                         alt={post.titulo}
                         style={styles.postImage}
                         onError={(e) => {
-                          const target = e.target as HTMLImageElement;
+                          const target = e.target;
                           target.src = 'https://via.placeholder.com/80x80?text=Imagem';
                         }}
                       />

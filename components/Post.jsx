@@ -1,29 +1,18 @@
 import React from 'react';
 
-// Interface para as props do componente Post
-interface PostProps {
-  id: number;
-  tipo: string;
-  titulo: string;
-  descricao: string;
-  capa: string;
-  data: string;
-  handleDelete: (id: number) => void;
-}
-
-const Post: React.FC<PostProps> = ({ id, tipo, titulo, descricao, capa, data, handleDelete }) => {
-  const formatarData = (dataString: string): string => {
+const Post = ({ id, tipo, titulo, descricao, capa, data, handleDelete }) => {
+  const formatarData = (dataString) => {
     return new Date(dataString).toLocaleDateString('pt-BR');
   };
 
-  const getTipoColor = (tipo: string): { backgroundColor: string; color: string } => {
+  const getTipoColor = (tipo) => {
     const colors = {
       'ARTIGO': { backgroundColor: '#dbeafe', color: '#1e40af' },
       'NOTÍCIA': { backgroundColor: '#dcfce7', color: '#166534' },
       'TUTORIAL': { backgroundColor: '#f3e8ff', color: '#7c3aed' },
       'ENTREVISTA': { backgroundColor: '#fed7aa', color: '#ea580c' }
     };
-    return colors[tipo.toUpperCase() as keyof typeof colors] || { backgroundColor: '#f3f4f6', color: '#374151' };
+    return colors[tipo.toUpperCase()] || { backgroundColor: '#f3f4f6', color: '#374151' };
   };
 
   const styles = {
@@ -35,11 +24,11 @@ const Post: React.FC<PostProps> = ({ id, tipo, titulo, descricao, capa, data, ha
       transition: 'transform 0.2s ease, box-shadow 0.2s ease',
       cursor: 'pointer',
       border: '1px solid #e5e7eb'
-    } as React.CSSProperties,
+    },
     postImage: {
       width: '100%',
       height: '180px',
-      objectFit: 'cover' as const,
+      objectFit: 'cover',
       backgroundColor: '#f3f4f6'
     },
     postContent: {
@@ -51,7 +40,7 @@ const Post: React.FC<PostProps> = ({ id, tipo, titulo, descricao, capa, data, ha
       borderRadius: '6px',
       fontSize: '12px',
       fontWeight: '600',
-      textTransform: 'uppercase' as const,
+      textTransform: 'uppercase',
       marginBottom: '12px',
       ...getTipoColor(tipo)
     },
@@ -94,11 +83,11 @@ const Post: React.FC<PostProps> = ({ id, tipo, titulo, descricao, capa, data, ha
   return (
     <div 
       style={styles.postCard}
-      onMouseOver={(e: React.MouseEvent<HTMLDivElement>) => {
+      onMouseOver={(e) => {
         e.currentTarget.style.transform = 'translateY(-4px)';
         e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
       }}
-      onMouseOut={(e: React.MouseEvent<HTMLDivElement>) => {
+      onMouseOut={(e) => {
         e.currentTarget.style.transform = 'translateY(0)';
         e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
       }}
@@ -107,8 +96,8 @@ const Post: React.FC<PostProps> = ({ id, tipo, titulo, descricao, capa, data, ha
         src={capa}
         alt={titulo}
         style={styles.postImage}
-        onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
-          const target = e.target as HTMLImageElement;
+        onError={(e) => {
+          const target = e.target;
           target.src = 'https://via.placeholder.com/400x180/f3f4f6/9ca3af?text=Imagem+não+encontrada';
         }}
       />
@@ -123,10 +112,10 @@ const Post: React.FC<PostProps> = ({ id, tipo, titulo, descricao, capa, data, ha
           <button
             onClick={() => handleDelete(id)}
             style={styles.deleteButton}
-            onMouseOver={(e: React.MouseEvent<HTMLButtonElement>) => {
+            onMouseOver={(e) => {
               e.currentTarget.style.backgroundColor = '#dc2626';
             }}
-            onMouseOut={(e: React.MouseEvent<HTMLButtonElement>) => {
+            onMouseOut={(e) => {
               e.currentTarget.style.backgroundColor = '#ef4444';
             }}
           >

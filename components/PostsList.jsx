@@ -1,30 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import Post from './Post'; // Import do componente Post
 
-// Interfaces TypeScript
-interface PostData {
-  id: number;
-  titulo: string;
-  descricao: string;
-  capa: string;
-  data: string;
-  tipo: string;
-}
-
-interface ContadorPorTipo {
-  [key: string]: number;
-}
-
 // Componente principal PostsList
-const PostsList: React.FC = () => {
-  const [posts, setPosts] = useState<PostData[]>([]);
-  const [contadorPorTipo, setContadorPorTipo] = useState<ContadorPorTipo>({});
+const PostsList = () => {
+  const [posts, setPosts] = useState([]);
+  const [contadorPorTipo, setContadorPorTipo] = useState({});
 
   // Inserir posts no localStorage se não existirem
   useEffect(() => {
     const postsExistentes = localStorage.getItem("posts");
     if (!postsExistentes) {
-      const postsIniciais: PostData[] = [
+      const postsIniciais = [
         {
           id: 1,
           titulo: "Inteligência Artificial no Dia a Dia",
@@ -64,15 +50,15 @@ const PostsList: React.FC = () => {
 
   // Buscar posts do localStorage
   useEffect(() => {
-    const carregarPosts = (): void => {
+    const carregarPosts = () => {
       try {
         const postsStorage = localStorage.getItem("posts");
         if (postsStorage) {
-          const postsData: PostData[] = JSON.parse(postsStorage);
+          const postsData = JSON.parse(postsStorage);
           setPosts(postsData);
           
           // Calcular contador por tipo
-          const contador: ContadorPorTipo = postsData.reduce((acc: ContadorPorTipo, post: PostData) => {
+          const contador = postsData.reduce((acc, post) => {
             const tipo = post.tipo;
             acc[tipo] = (acc[tipo] || 0) + 1;
             return acc;
@@ -88,14 +74,14 @@ const PostsList: React.FC = () => {
   }, []);
 
   // Função para excluir post
-  const handleDelete = (id: number): void => {
+  const handleDelete = (id) => {
     try {
-      const postsAtualizados: PostData[] = posts.filter(post => post.id !== id);
+      const postsAtualizados = posts.filter(post => post.id !== id);
       setPosts(postsAtualizados);
       localStorage.setItem("posts", JSON.stringify(postsAtualizados));
       
       // Atualizar contador
-      const novoContador: ContadorPorTipo = postsAtualizados.reduce((acc: ContadorPorTipo, post: PostData) => {
+      const novoContador = postsAtualizados.reduce((acc, post) => {
         const tipo = post.tipo;
         acc[tipo] = (acc[tipo] || 0) + 1;
         return acc;
@@ -115,7 +101,7 @@ const PostsList: React.FC = () => {
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", sans-serif'
     },
     header: {
-      textAlign: 'center' as const,
+      textAlign: 'center',
       marginBottom: '40px'
     },
     titulo: {
@@ -154,7 +140,7 @@ const PostsList: React.FC = () => {
       marginTop: '16px'
     },
     contadorItem: {
-      textAlign: 'center' as const,
+      textAlign: 'center',
       padding: '12px',
       backgroundColor: '#f9fafb',
       borderRadius: '8px',
@@ -178,7 +164,7 @@ const PostsList: React.FC = () => {
       marginTop: '32px'
     },
     emptyState: {
-      textAlign: 'center' as const,
+      textAlign: 'center',
       padding: '60px 20px',
       color: '#6b7280'
     },
@@ -196,7 +182,7 @@ const PostsList: React.FC = () => {
     }
   };
 
-  const totalPosts: number = posts.length;
+  const totalPosts = posts.length;
 
   return (
     <div style={styles.container}>
@@ -213,7 +199,7 @@ const PostsList: React.FC = () => {
         
         {totalPosts > 0 && (
           <div style={styles.contadorGrid}>
-            {Object.entries(contadorPorTipo).map(([tipo, quantidade]: [string, number]) => (
+            {Object.entries(contadorPorTipo).map(([tipo, quantidade]) => (
               <div key={tipo} style={styles.contadorItem}>
                 <div style={styles.contadorLabel}>{tipo}</div>
                 <div style={styles.contadorNumero}>{quantidade}</div>
@@ -232,7 +218,7 @@ const PostsList: React.FC = () => {
         </div>
       ) : (
         <div style={styles.postsGrid}>
-          {posts.map((post: PostData) => (
+          {posts.map((post) => (
             <Post
               key={post.id}
               id={post.id}

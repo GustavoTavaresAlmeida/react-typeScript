@@ -1,8 +1,31 @@
 // src/components/Post.tsx - Componente Individual do Post
 
 import React from 'react';
-import { PostProps } from '@/types';
-import { formatarData, getTipoClass } from '@/utils';
+
+interface PostProps {
+  id: number;
+  tipo: string;
+  titulo: string;
+  descricao: string;
+  capa: string;
+  data: string;
+  handleDelete: (id: number) => void;
+}
+
+// Utilitários para formatação
+const formatarData = (dataString: string): string => {
+  return new Date(dataString).toLocaleDateString('pt-BR');
+};
+
+const getTipoClass = (tipo: string): string => {
+  const classes: Record<string, string> = {
+    'ARTIGO': 'tipo-artigo',
+    'NOTÍCIA': 'tipo-noticia',
+    'TUTORIAL': 'tipo-tutorial',
+    'ENTREVISTA': 'tipo-entrevista'
+  };
+  return classes[tipo.toUpperCase()] || 'tipo-artigo';
+};
 
 const Post: React.FC<PostProps> = ({ 
   id, 

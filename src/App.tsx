@@ -1,15 +1,29 @@
 // src/App.tsx - Componente Principal da Aplicação TypeScript
 
 import React, { useState } from 'react';
-import { useToast } from '@/hooks/useToast';
-import Toast from '@/components/Toast';
-import PostForm from '@/components/PostForm';
-import PostsList from '@/components/PostsList';
+import Toast from './components/Toast';
+import PostForm from './components/PostForm';
+import PostsList from './components/PostsList';
 
 // Importar estilos CSS
 import './styles/global.css';
 import './styles/components.css';
 import './styles/responsive.css';
+
+// Hook para Toast
+const useToast = () => {
+  const [toast, setToast] = useState<{ message: string; type: string } | null>(null);
+
+  const showToast = (message: string, type: string) => {
+    setToast({ message, type });
+  };
+
+  const hideToast = () => {
+    setToast(null);
+  };
+
+  return { toast, showToast, hideToast };
+};
 
 type ActiveTab = 'form' | 'posts';
 

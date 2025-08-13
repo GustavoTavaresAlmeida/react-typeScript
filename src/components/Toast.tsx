@@ -1,7 +1,14 @@
 // src/components/Toast.tsx - Componente de Notificação
 
 import React, { useEffect } from 'react';
-import { ToastProps, TOAST_DURATION } from '@/types';
+
+interface ToastProps {
+  message: string;
+  type: string;
+  onClose: () => void;
+}
+
+const TOAST_DURATION = 3000;
 
 const Toast: React.FC<ToastProps> = ({ message, type, onClose }) => {
   useEffect(() => {

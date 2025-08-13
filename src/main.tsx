@@ -24,7 +24,7 @@ root.render(
 );
 
 // Log de sucesso no desenvolvimento
-if (import.meta.env.DEV) {
+if (process.env.NODE_ENV === 'development') {
   console.log('✅ Aplicação TypeScript carregada com sucesso!');
   console.log('🚀 Rodando em modo desenvolvimento');
 }

@@ -1,10 +1,128 @@
-// src/components/PostsList.tsx - Componente Lista de Posts TypeScript
+// src/components/PostsList.tsx - Componente Lista de Posts
 
-import React from 'react';
-import { PostsListProps } from '@/types';
-import { usePosts } from '@/hooks/usePosts';
-import { formatTipoPost } from '@/utils';
+import React, { useState, useEffect } from 'react';
 import Post from './Post';
+
+interface PostData {
+  id: number;
+  titulo: string;
+  descricao: string;
+  capa: string;
+  data: string;
+  tipo: string;
+  criadoEm?: string;
+}
+
+interface PostsListProps {
+  refreshKey?: number;
+}
+
+// Hook simulado para posts
+const usePosts = () => {
+  const [posts, setPosts] = useState<PostData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Posts iniciais
+  const postsIniciais: PostData[] = [
+    {
+      id: 1,
+      titulo: "Inteligência Artificial no Dia a Dia",
+      descricao: "Como a IA está revolucionando serviços e impactando decisões em empresas e governos.",
+      capa: "https://totalip.com.br/wp-content/uploads/2023/08/A-tecnologia-impulsiona-o-futuro-do-Brasil.png",
+      data: "2025-07-15",
+      tipo: "artigo",
+      criadoEm: new Date().toISOString()
+    },
+    {
+      id: 2,
+      titulo: "5 Tendências Tech para 2026",
+      descricao: "De computação quântica ao metaverso corporativo, conheça o que vem por aí.",
+      capa: "https://totalip.com.br/wp-content/uploads/2023/08/A-tecnologia-impulsiona-o-futuro-do-Brasil.png",
+      data: "2025-07-10",
+      tipo: "noticia",
+      criadoEm: new Date().toISOString()
+    },
+    {
+      id: 3,
+      titulo: "Cibersegurança nas Empresas Brasileiras",
+      descricao: "Com o aumento dos ataques digitais, proteger dados virou prioridade.",
+      capa: "https://totalip.com.br/wp-content/uploads/2023/08/A-tecnologia-impulsiona-o-futuro-do-Brasil.png",
+      data: "2025-07-04",
+      tipo: "artigo",
+      criadoEm: new Date().toISOString()
+    },
+    {
+      id: 4,
+      titulo: "Desenvolvimento Web: o que mudou em 2025?",
+      descricao: "Novas frameworks, ferramentas e metodologias que estão transformando o desenvolvimento.",
+      capa: "https://totalip.com.br/wp-content/uploads/2023/08/A-tecnologia-impulsiona-o-futuro-do-Brasil.png",
+      data: "2025-06-28",
+      tipo: "tutorial",
+      criadoEm: new Date().toISOString()
+    }
+  ];
+
+  useEffect(() => {
+    const carregarPosts = async () => {
+      setIsLoading(true);
+      try {
+        // Simular carregamento
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Tentar carregar do localStorage
+        const saved = localStorage.getItem('posts');
+        if (saved) {
+          setPosts(JSON.parse(saved));
+        } else {
+          setPosts(postsIniciais);
+          localStorage.setItem('posts', JSON.stringify(postsIniciais));
+        }
+      } catch (err) {
+        setError('Erro ao carregar posts');
+        setPosts(postsIniciais);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    carregarPosts();
+  }, []);
+
+  const deletePost = async (id: number) => {
+    try {
+      const updatedPosts = posts.filter(post => post.id !== id);
+      setPosts(updatedPosts);
+      localStorage.setItem('posts', JSON.stringify(updatedPosts));
+    } catch (err) {
+      console.error('Erro ao deletar post:', err);
+    }
+  };
+
+  const contadorPorTipo = posts.reduce((acc, post) => {
+    acc[post.tipo] = (acc[post.tipo] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+
+  return {
+    posts,
+    contadorPorTipo,
+    isLoading,
+    error,
+    deletePost
+  };
+};
+
+// Utilitário para formatar tipo
+const formatTipoPost = (tipo: string): string => {
+  const formatMap: Record<string, string> = {
+    'artigo': 'Artigo',
+    'noticia': 'Notícia',
+    'tutorial': 'Tutorial',
+    'entrevista': 'Entrevista'
+  };
+  return formatMap[tipo] || tipo;
+};
 
 const PostsList: React.FC<PostsListProps> = ({ refreshKey }) => {
   const { 
@@ -86,7 +204,7 @@ const PostsList: React.FC<PostsListProps> = ({ refreshKey }) => {
             {Object.entries(contadorPorTipo).map(([tipo, quantidade]) => (
               <div key={tipo} className="contador-item">
                 <div className="contador-label">
-                  {formatTipoPost(tipo as any)}
+                  {formatTipoPost(tipo)}
                 </div>
                 <div className="contador-numero">{quantidade}</div>
               </div>
